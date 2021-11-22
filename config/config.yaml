@@ -1,0 +1,457 @@
+# 用户规则配置
+user_regulation:
+    # 用户 gubi
+    gubi:
+        rule1:
+            # 配置场景为朋友圈截图页面
+            regulation_screen1:
+                user_img:
+                    # 元素，用户头像
+                    name: user_img
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过不做处理
+                    if_verify: False
+                    # 级别，1：必须有，2.或许有 3.可省
+                    level: 3
+
+                user_name:
+                    # 元素，用户昵称
+                    name: user_name
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过不做处理
+                    if_verify: False
+                    level: 3
+                comment:
+                    # 元素评论语
+                    name: comment
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: True
+                    # 评论语中包含的关键词
+                    limit_content: [ '美术' ]
+                    # 条件 and: 包含所有 contain_keywords ,or: 任一，not : 不含 contain_keywords
+                    limit_condition: all
+                    content_type: string
+                    level: 1
+
+                share_pictures:
+                    # 元素，分享图片（插图）
+                    name: share_pictures
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: True
+
+                    limit_content:
+                              poster:
+                                  # 匹配图
+                                  include: [
+                                       'D:\project\py-project\ai-wechat-moments-verify\img\gubi_template\gubi_tmp_poster_02.png',
+                                     'D:\project\py-project\ai-wechat-moments-verify\img\gubi_template\gubi_tmp_poster_03.png',
+                                     'D:\project\py-project\ai-wechat-moments-verify\img\gubi_template\gubi_tmp_poster_04.png',
+                                     'D:\project\py-project\ai-wechat-moments-verify\img\gubi_template\gubi_tmp_poster_05.jpg',
+                                     'D:\project\py-project\ai-wechat-moments-verify\img\gubi_template\gubi_tmp_poster_06.png',
+                                     'D:\project\py-project\ai-wechat-moments-verify\img\gubi_template\gubi_tmp_poster_07.jpg',
+                                     'D:\project\py-project\ai-wechat-moments-verify\img\gubi_template\gubi_tmp_poster_08.jpg'
+                                  ]
+                                  # 需要过滤的匹配图
+                                  exclude: [
+                                          'D:\project\py-project\ai-wechat-moments-verify\img\gubi_template\gubi_tmp_poster_08.jpg'
+                                  ]
+
+
+                              logo:
+                                  include: []
+                                  exclude: []
+
+
+                    limit_condition: or
+
+                    content_type: img
+                    level: 1
+                publication_time:
+                    # 发表时间
+                    name: publication_time
+                    # 是否保留该元素，参数为True 进行下一步操作，False跳过不处理
+                    if_verify: True
+                    # 时间秒
+                    limit_content: [ 120 ]
+                    # 字符串： > : 大于 limit_comtent < : 小于 limit_content
+                    limit_condition: '>'
+                    content_type: number
+                    #发表最小是时间，单位：分钟
+                    level: 1
+                grouping_icon:
+                    # 元素，分组图标
+                    name: grouping_icon
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: True
+                    level: 1
+                app_name:
+                    name: app_name
+                    if_verify: False
+                    # 评论语中包含的关键词
+                    limit_content: [ '咕比启蒙' ]
+                    # 条件 and: 包含所有 contain_keywords ,or: 任一，not : 不含 contain_keywords
+                    limit_condition: and
+                    content_type: string
+
+
+
+            #配置场景二：分享图片截图
+            regulation_screen2:
+                if_verify: False
+                comment:
+                    # 元素评论语
+                    name: comment
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    # 评论语中包含的关键词
+                    limit_content: [ '画啦啦' ]
+                    # 条件 and: 包含所有 contain_keywords ,or: 任一，not : 不含 contain_keywords
+                    limit_condition: all
+                    content_type: string
+                    level: 1
+                share_pictures:
+                    # 元素，分享图片（插图）
+                    name: share_pictures
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: True
+                    limit_content: [ img1,img2 ]
+                    limit_condition: or
+                    content_type: img
+                    level: 1
+                publication_time:
+                    # 发表时间
+                    name: publication_time
+                    # 是否保留该元素，参数为True 进行下一步操作，False跳过不处理
+                    if_verify: True
+                    # 时间秒
+                    limit_content: [ 120 ]
+                    limit_condition: <
+                    content_type: number
+                    #发表最小是时间，单位：分钟
+                    level: 1
+                grouping_icon:
+                    # 元素，分组图标
+                    name: grouping_icon
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    level: 1
+                location:
+                    # 元素，地理位置
+                    name: location
+                    #是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    limit_condition: all
+                    limit_content: [ '广州' ]
+                    content_type: string
+                    level: 1
+                like_icon:
+                    # 元素，点赞图标
+                    name: like_icon
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    level: 1
+                comment_icon:
+                    # 元素，分组图标
+                    name: comment_icon
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: Ture
+                    # 评论语中包含的关键词
+                    contain: False
+                    level: 1
+
+    hualala:
+        rule1:
+            # 配置场景为朋友圈截图页面
+            regulation_screen1:
+                grouping_icon:
+                    # 元素，分组图标
+                    name: grouping_icon
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: True
+                    level: 1
+                user_img:
+                    # 元素，用户头像
+                    name: user_img
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过不做处理
+                    if_verify: False
+                    # 级别，1：必须有，2.或许有 3.可省
+                    level: 3
+
+                user_name:
+                    # 元素，用户昵称
+                    name: user_name
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过不做处理
+                    if_verify: False
+                    level: 3
+                comment:
+                    # 元素评论语
+                    name: comment
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    # 评论语中包含的关键词
+                    limit_content: [ '美术' ]
+                    # 条件 and: 包含所有 contain_keywords ,or: 任一，not : 不含 contain_keywords
+                    limit_condition: all
+                    content_type: string
+                    level: 1
+                logo_hualala:
+                    name: logo_hualala
+                    if_verify: True
+                    limit_content: []
+                    limit_condition: all
+                    content_type: img
+
+                share_pictures:
+                    # 元素，分享图片（插图）
+                    name: share_pictures
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+
+                    limit_content:
+                        poster:
+                            # 匹配图
+                            include: [
+
+                            ]
+                            # 需要过滤的匹配图
+                            exclude: [
+
+                            ]
+
+
+                        logo:
+                            include: [
+                            ]
+                            exclude: [ ]
+
+                    limit_condition: all
+
+                    content_type: img
+                    level: 1
+                publication_time:
+                    # 发表时间
+                    name: publication_time
+                    # 是否保留该元素，参数为True 进行下一步操作，False跳过不处理
+                    if_verify: False
+                    # 时间秒
+                    limit_content: [ 120 ]
+                    # 字符串： > : 大于 limit_comtent < : 小于 limit_content
+                    limit_condition: '>'
+                    content_type: number
+                    #发表最小是时间，单位：分钟
+                    level: 1
+
+                app_name:
+                    name: app_name
+                    if_verify: False
+                    # 评论语中包含的关键词
+                    limit_content: [ '咕比启蒙' ]
+                    # 条件 and: 包含所有 contain_keywords ,or: 任一，not : 不含 contain_keywords
+                    limit_condition: and
+                    content_type: string
+
+
+            #配置场景二：分享图片截图
+            regulation_screen2:
+
+                comment:
+                    # 元素评论语
+                    name: comment
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    # 评论语中包含的关键词
+                    limit_content: [ '画啦啦' ]
+                    # 条件 and: 包含所有 contain_keywords ,or: 任一，not : 不含 contain_keywords
+                    limit_condition: all
+                    content_type: string
+                    level: 1
+                share_pictures:
+                    # 元素，分享图片（插图）
+                    name: share_pictures
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    limit_content:
+                        poster:
+                            # 匹配图
+                            include: [
+
+                            ]
+                            # 需要过滤的匹配图
+                            exclude: [
+
+                            ]
+
+
+                        logo:
+                            include: [
+                            ]
+                            exclude: [ ]
+                    limit_condition: or
+                    content_type: img
+                    level: 1
+                publication_time:
+                    # 发表时间
+                    name: publication_time
+                    # 是否保留该元素，参数为True 进行下一步操作，False跳过不处理
+                    if_verify: False
+                    # 时间秒
+                    limit_content: [ 120 ]
+                    limit_condition: '<'
+                    content_type: number
+                    #发表最小是时间，单位：分钟
+                    level: 1
+                grouping_icon:
+                    # 元素，分组图标
+                    name: grouping_icon
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: True
+                    level: 1
+    test:
+        rule1:
+            # 配置场景为朋友圈截图页面
+            regulation_screen1:
+                grouping_icon:
+                    # 元素，分组图标
+                    name: grouping_icon
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: True
+                    level: 1
+                user_img:
+                    # 元素，用户头像
+                    name: user_img
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过不做处理
+                    if_verify: False
+                    # 级别，1：必须有，2.或许有 3.可省
+                    level: 3
+
+                user_name:
+                    # 元素，用户昵称
+                    name: user_name
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过不做处理
+                    if_verify: False
+                    level: 3
+                comment:
+                    # 元素评论语
+                    name: comment
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    # 评论语中包含的关键词
+                    limit_content: [ '美术' ]
+                    # 条件 and: 包含所有 contain_keywords ,or: 任一，not : 不含 contain_keywords
+                    limit_condition: all
+                    content_type: string
+                    level: 1
+                logo_hualala:
+                    name: logo_hualala
+                    if_verify: True
+                    limit_content: [ ]
+                    limit_condition: all
+                    content_type: img
+
+                share_pictures:
+                    # 元素，分享图片（插图）
+                    name: share_pictures
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+
+                    limit_content:
+                        poster:
+                            # 匹配图
+                            include: [
+
+                            ]
+                            # 需要过滤的匹配图
+                            exclude: [
+
+                            ]
+
+
+                        logo:
+                            include: [
+                            ]
+                            exclude: [ ]
+
+                    limit_condition: all
+
+                    content_type: img
+                    level: 1
+                publication_time:
+                    # 发表时间
+                    name: publication_time
+                    # 是否保留该元素，参数为True 进行下一步操作，False跳过不处理
+                    if_verify: False
+                    # 时间秒
+                    limit_content: [ 120 ]
+                    # 字符串： > : 大于 limit_comtent < : 小于 limit_content
+                    limit_condition: '>'
+                    content_type: number
+                    #发表最小是时间，单位：分钟
+                    level: 1
+
+                app_name:
+                    name: app_name
+                    if_verify: False
+                    # 评论语中包含的关键词
+                    limit_content: [ '咕比启蒙' ]
+                    # 条件 and: 包含所有 contain_keywords ,or: 任一，not : 不含 contain_keywords
+                    limit_condition: and
+                    content_type: string
+
+
+            #配置场景二：分享图片截图
+            regulation_screen2:
+
+                comment:
+                    # 元素评论语
+                    name: comment
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    # 评论语中包含的关键词
+                    limit_content: [ '画啦啦' ]
+                    # 条件 and: 包含所有 contain_keywords ,or: 任一，not : 不含 contain_keywords
+                    limit_condition: all
+                    content_type: string
+                    level: 1
+                share_pictures:
+                    # 元素，分享图片（插图）
+                    name: share_pictures
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: False
+                    limit_content:
+                        poster:
+                            # 匹配图
+                            include: [
+
+                            ]
+                            # 需要过滤的匹配图
+                            exclude: [
+
+                            ]
+
+
+                        logo:
+                            include: [
+                            ]
+                            exclude: [ ]
+                    limit_condition: or
+                    content_type: img
+                    level: 1
+                publication_time:
+                    # 发表时间
+                    name: publication_time
+                    # 是否保留该元素，参数为True 进行下一步操作，False跳过不处理
+                    if_verify: False
+                    # 时间秒
+                    limit_content: [ 120 ]
+                    limit_condition: '<'
+                    content_type: number
+                    #发表最小是时间，单位：分钟
+                    level: 1
+                grouping_icon:
+                    # 元素，分组图标
+                    name: grouping_icon
+                    # 是否保留该元素，保留进行下一步操作，不保留，跳过
+                    if_verify: True
+                    level: 1
+
+
+
+

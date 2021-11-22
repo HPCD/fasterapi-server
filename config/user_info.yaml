@@ -1,0 +1,37 @@
+#用户配置表
+UserList:
+    user1:
+        user_id: 110
+        user_name: gubi
+        password: '123456'
+        # 回调函数 eurake
+        callback_fun:
+            eureka_service: pjx-spc
+            api: /i/v1/share/autoAuditCallback
+        # 告警机器人
+        robot:
+            send_dingding_info: True
+            url: https://oapi.dingtalk.com/robot/send?access_token=b76221c46710911949534c39ec6e5e889463dae332109b18adcc1170495c6024
+    user2:
+        user_id: 111
+        user_name: hualala
+        password: 'h123456'
+        # 回调函数 eurake
+        callback_fun:
+            eureka_service: thirdparty
+            api: /o/v1/wechatMoments/uploadCheckResult
+        robot:
+            send_dingding_info: True
+            url: https://oapi.dingtalk.com/robot/send?access_token=09978b8e223e7ce891521318a1ece7b361e3638919a21edef118a1ee24f29f3a
+    user3:
+        user_id: 113
+        # 测试用户
+        user_name: test
+        password: 'test123456'
+        # 回调函数 eurake
+        callback_fun:
+            eureka_service: callback_test
+            api: /v1/callback
+        robot:
+            send_dingding_info: False
+            url: https://oapi.dingtalk.com/robot/send?access_token=09978b8e223e7ce891521318a1ece7b361e3638919a21edef118a1ee24f29f3a

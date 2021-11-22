@@ -1,0 +1,242 @@
+# 标签名称
+labels: [
+  "portrait-nickname",
+  "portrait-nickname-describe",
+  "delete",
+  "twodot",
+  "like",
+  "comment",
+  "like-comment",
+  "group",
+  "logo-hualala",
+  "logo-gubi",
+  "like-portrait",
+  "comment-portrait",
+  "like-single",
+  "comment-single",
+  "logo-wandou",
+  "mpcode-wandou",
+  "qrcode",
+  "logo-wandou-koucai",
+  "logo-wandou-yizhi",
+]
+
+# 标签置信度阈值
+label_confidence: {
+  "portrait-nickname": 0.3,
+  "portrait-nickname-describe": 0.3,
+  "delete": 0.6,
+  "twodot": 0.6,
+  "like": 0.3,
+  "comment": 0.3,
+  "like-comment": 0.3,
+  "group": 0.6,
+  "logo-hualala": 0.3,
+  "logo-gubi": 0.6,
+  'like-portrait': 0.6,
+  'comment-portrait': 0.6,
+  "like-single": 0.6,
+  "comment-single": 0.6,
+  "logo-wandou": 0.3,
+  "mpcode-wandou": 0.6,
+  "qrcode": 0.6,
+  "logo-wandou-koucai": 0.3,
+  "logo-wandou-yizhi": 0.3,
+}
+
+# 标签模版
+label_temp: [
+  {
+    # 场景
+    "screen": 1,
+    # 包含标签(按行匹配)
+    "include": [
+      ["portrait-nickname"],
+      ["delete", "twodot"]
+    ],
+    # 排除标签
+    "exclude": ["logo-gubi", "logo-hualala", "logo-wandou", "logo-wandou-koucai", "logo-wandou-yizhi", "qrcode", "mpcode-wandou", "portrait-nickname-describe"],
+    # 是否是底部(如果是底部, 那么匹配后同时返回上面的所有标签)
+    "is_floor": false
+  },
+  {
+    "screen": 1,
+    "include": [
+      ["portrait-nickname"],
+      ["twodot"]
+    ],
+    "exclude": ["logo-gubi", "logo-hualala", "logo-wandou", "logo-wandou-koucai", "logo-wandou-yizhi", "qrcode", "mpcode-wandou", "portrait-nickname-describe"],
+    "is_floor": false
+  },
+  {
+    "screen": 1,
+    "include": [
+      ["portrait-nickname"],
+      ["delete"]
+    ],
+    "exclude": ["logo-gubi", "logo-hualala", "logo-wandou", "logo-wandou-koucai", "logo-wandou-yizhi", "qrcode", "mpcode-wandou", "portrait-nickname-describe"],
+    "is_floor": false
+  },
+
+  {
+    "screen": 1,
+    "include": [
+      ["portrait-nickname-describe"],
+      ["delete", "twodot"]
+    ],
+    "exclude": ["logo-gubi", "logo-hualala", "logo-wandou", "logo-wandou-koucai", "logo-wandou-yizhi", "qrcode", "mpcode-wandou", "portrait-nickname"],
+    "is_floor": false
+  },
+  {
+    "screen": 1,
+    "include": [
+      ["portrait-nickname-describe"],
+      ["twodot"]
+    ],
+    "exclude": ["logo-gubi", "logo-hualala", "logo-wandou", "logo-wandou-koucai", "logo-wandou-yizhi", "qrcode", "mpcode-wandou", "portrait-nickname"],
+    "is_floor": false
+  },
+  {
+    "screen": 1,
+    "include": [
+      ["portrait-nickname-describe"],
+      ["delete"]
+    ],
+    "exclude": ["logo-gubi", "logo-hualala", "logo-wandou", "logo-wandou-koucai", "logo-wandou-yizhi", "qrcode", "mpcode-wandou", "portrait-nickname"],
+    "is_floor": false
+  },
+
+
+  {
+    "screen": 2,
+    "include": [
+      ["like", "comment", "like-comment"]
+    ],
+    "exclude": ["like-single", "comment-single"],
+    "is_floor": true
+  },
+  {
+    "screen": 2,
+    "include": [
+      ["like", "comment"]
+    ],
+    "exclude": ["like-single", "comment-single"],
+    "is_floor": true
+  },
+  {
+    "screen": 2,
+    "include": [
+      ["like-comment"]
+    ],
+    "exclude": ["like-single", "comment-single"],
+    "is_floor": true
+  },
+]
+
+# 时间模版
+time_temp: [
+  {
+    "pattern": "刚刚|剛剛",
+    "format" : "timestamp = ts"
+  },
+  {
+    "pattern": "(\\d{1,2})\\s*(分.*前|分.*前|分钟|分鐘|mins\\s*ago|min\\s*ago|mins|min)",
+    "format" : "timestamp = ts - 60 * int(match.group(1))"
+  },
+  {
+    "pattern": "(\\d{1,2})\\s*(小.*前|小.*前|小时|小時|hrs\\s*ago|hr\\s*ago|hrs|hr)",
+    "format" : "timestamp = ts - 3600 * int(match.group(1)) - 3"
+  },
+  {
+    "pattern": "(\\d{1,2})\\s*(天前|days\\s*ago|days)",
+    "format" : "timestamp = ts - 86400 * int(match.group(1))"
+  },
+
+
+  {
+    "pattern": "(\\d{2,4})年(\\d+)月(\\d+)日\\s*(\\d{1,2})(:|：)(\\d{1,2})",
+    "format" : "t = ( int(match.group(1)), int(match.group(2)), int(match.group(3)), int(match.group(4)), int(match.group(6)), 0, 0, 0, 0 );
+                timestamp = int(time.mktime(t))"
+  },
+  {
+    "pattern": "(\\d{2,4})年(\\d+)月(\\d+)日\\s*(凌晨|淩晨|上午|下午)\\s*(\\d{1,2})(:|：)(\\d{1,2})",
+    "format" : "t = ( int(match.group(1)), int(match.group(2)), int(match.group(3)), int(match.group(5)), int(match.group(7)), 0, 0, 0, 0 );
+                n = 43200 if match.group(4) == '下午' else 0;
+                timestamp = int(time.mktime(t)) + n"
+  },
+  {
+    "pattern": "(\\d{2,4})年(\\d+)月(\\d+)日",
+    "format" : "t = ( int(match.group(1)), int(match.group(2)), int(match.group(3)), 0, 0, 0, 0, 0, 0 );
+                timestamp = int(time.mktime(t)) + 43200"
+  },
+
+
+  {
+    "pattern": "(昨天|前天)\\s*(凌晨|淩晨|上午|下午)\\s*(\\d{1,2})(:|：)(\\d{1,2})",
+    "format" : "t1 = ts; t2 = t1 - t1 % 86400 + time.timezone;
+                n1 = 1 if match.group(1) == '昨天' else 2;
+                n2 = 43200 if match.group(2) == '下午' else 0;
+                timestamp = t2 - n1 * 86400 + 3600 * int(match.group(3)) + 60 * int(match.group(5)) + n2"
+  },
+  {
+    "pattern": "(昨天|前天)\\s*(凌晨|淩晨|上午|下午)",
+    "format" : "t1 = ts; t2 = t1 - t1 % 86400 + time.timezone;
+                n1 = 1 if match.group(1) == '昨天' else 2;
+                n2 = 43200 if match.group(2) == '下午' else 32400 if match.group(2) == '上午' else 0;
+                timestamp = t2 - n1 * 86400 + n2"
+  },
+  {
+    "pattern": "(昨天|前天)\\s*(\\d{1,2})(:|：)(\\d{1,2})",
+    "format" : "t1 = ts; t2 = t1 - t1 % 86400 + time.timezone;
+                n1 = 1 if match.group(1) == '昨天' else 2;
+                timestamp = t2 - n1 * 86400 + 3600 * int(match.group(2)) + 60 * int(match.group(4))"
+  },
+  {
+    "pattern": "(昨天|前天)",
+    "format" : "t1 = ts; t2 = t1 - t1 % 86400 + time.timezone;
+                n = 1 if match.group(1) == '昨天' else 2;
+                timestamp = t2 - n * 86400 + 43200"
+  },
+
+
+  {
+    "pattern": "(凌晨|淩晨|上午|下午)\\s*(\\d{1,2})(:|：)(\\d{1,2})",
+    "format" : "t1 = ts; t2 = t1 - t1 % 86400 + time.timezone;
+                n = 43200 if match.group(1) == '下午' else 0;
+                timestamp = t2 + n + 3600 * int(match.group(2)) + 60 * int(match.group(4))"
+  },
+  {
+    "pattern": "(凌晨|淩晨|上午|下午)",
+    "format" : "t1 = ts; t2 = t1 - t1 % 86400 + time.timezone;
+                n = 43200 if match.group(1) == '下午' else 32400 if match.group(1) == '上午' else 0;
+                timestamp = t2 + n"
+  },
+
+  {
+    "pattern": "(\\d{1,2})(:|：)(\\d{1,2})",
+    "format" : "t1 = ts; t2 = t1 - t1 % 86400 + time.timezone;
+                timestamp = t2 + 3600 * int(match.group(1)) + 60 * int(match.group(3))"
+  },
+]
+
+
+
+# time_temp: [
+#   {"pattern": "刚刚|剛剛"},
+#   {"pattern": "(\\d{1,2})\\s*(分钟前|分鐘前|mins ago|min ago|mins|min)"},
+#   {"pattern": "(\\d{1,2})\\s*(小时前|小時前|hrs ago|hr ago|hrs|hr)"},
+#   {"pattern": "(\\d{1,2})\\s*(天前|days ago|days)"},
+
+#   {"pattern": "(昨天|前天|Yesterday)\\s*(上午|下午|凌晨|淩晨)\\s*(\\d){1,2}(:|：)(\\d){1,2}"},
+#   {"pattern": "(昨天|前天|Yesterday)\\s*(上午|下午|凌晨|淩晨)"},
+#   {"pattern": "(昨天|前天|Yesterday)\\s*(\\d){1,2}(:|：)(\\d){1,2}"},
+  
+#   {"pattern": "(\\d*)年{0,1}(\\d*)月{0,1}(\\d+)日\\s*(\\d){1,2}(:|：)(\\d){1,2}"},
+#   {"pattern": "(\\d*)年{0,1}(\\d*)月{0,1}(\\d+)日\\s*(上午|下午|凌晨|淩晨)\\s*(\\d){1,2}(:|：)(\\d){1,2}"},
+#   {"pattern": "(\\d*)年{0,1}(\\d*)月{0,1}(\\d+)日"},
+
+#   {"pattern": "(上午|下午|凌晨|淩晨){0,1}(\\d{1,2})(:|：)(\\d{1,2})"},
+#   {"pattern": "上午|下午|凌晨|淩晨"},
+#   {"pattern": "昨天|前天|Yesterday"},
+#   {"pattern": "(\\d){1,2}(:|：)(\\d){1,2}"},
+# ]

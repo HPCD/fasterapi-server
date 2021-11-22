@@ -83,7 +83,7 @@ class LabelChecker(object):
             ('rtsp://', 'rtmp://', 'http://', 'https://')
         ):
             download(img_source, self.img_tmp_path)
-        
+        print('img path ',self.img_tmp_path)
         # 加载图片
         self.yolo_model.load_img(self.img_tmp_path)
         self.yolo_model.save_img(self.img_tmp_path)

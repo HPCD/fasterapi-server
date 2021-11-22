@@ -13,10 +13,13 @@ from src.validation_rule_processing import verify_status
 from src.element_check.extract import extract_element,check_gubi
 from src.callback_fun import send_predict_result_to_callback
 from  time import time
+from src.element_check.check import LabelChecker
+
+
 USER_CONFIG_PATH = os.path.join('config', 'user_info.yaml')
 
 
-def async_veri(save_img_name, user_name, params_data):
+def async_veri( params_data):
     """
     异步审核
     Args:
@@ -28,43 +31,49 @@ def async_veri(save_img_name, user_name, params_data):
 
     """
 
+
+    # 检测基本元素,ts默认当前时间
+    logging.info("Step 3: user name : {} ,start extract element! ".format('test'))
+    start_time = time()
     # 请求参数中获取上传时间
     upload_time = get_upload_time(params_data)
-    # 检测基本元素,ts默认当前时间
-    logging.info("Step 3: user name : {} ,start extract element! ".format(user_name))
-    start_time = time()
-    detect_elements = extract_element(save_img_name, upload_time)
+    save_img_name = params_data['image']
+    label_checker = LabelChecker(1)
+    ret = label_checker.check(save_img_name)
+    print("ret ",ret)
 
-    end_time = time()
-    logging.info(" Extract element user time : {}".format(end_time-start_time))
-    logging.info("Step 3: user name : {} ,finished extract element! ".format(user_name))
-    # 检测完毕，删除图片
-    if os.path.exists(save_img_name):
-        os.remove(save_img_name)
+    detect_elements = extract_element(save_img_name,upload_time)
+    #
+    # end_time = time()
+    # logging.info(" Extract element user time : {}".format(end_time-start_time))
+    # logging.info("Step 3: user name : {} ,finished extract element! ".format(user_name))
+    # # 检测完毕，删除图片
+    # if os.path.exists(save_img_name):
+    #     os.remove(save_img_name)
+    #
+    # # 验证检测到的元素状态，审核通过返回true, 否则返回false
+    # vec_status, verify_msg = verify_status(user_name, detect_elements, upload_time)
+    #
+    # logging.info("Step 3 : Finished verify !")
+    #
+    # result = {
+    #     "imageId": params_data['image_id'],
+    #     "imageUrl": params_data['image'],
+    #     "machineCheckResult": verify_msg,
+    #     "machineCheckStatus": vec_status
+    # }
+    #
+    # logging.info("Result {}".format(result))
 
-    # 验证检测到的元素状态，审核通过返回true, 否则返回false
-    vec_status, verify_msg = verify_status(user_name, detect_elements, upload_time)
-
-    logging.info("Step 3 : Finished verify !")
-
-    result = {
-        "imageId": params_data['image_id'],
-        "imageUrl": params_data['image'],
-        "machineCheckResult": verify_msg,
-        "machineCheckStatus": vec_status
-    }
-
-    logging.info("Result {}".format(result))
-
-    service, api, send_dingding_info, ding_url = get_eureka_by_username(user_name)
-
-    if service is None :
-        logging.info("Can not Find user ：{}".format(user_name))
-
-    logging.info(" Save result to callback !")
+    # service, api, send_dingding_info, ding_url = get_eureka_by_username(user_name)
+    #
+    # if service is None :
+    #     logging.info("Can not Find user ：{}".format(user_name))
+    #
+    # logging.info(" Save result to callback !")
     # 结果保存到回调接口
-    send_predict_result_to_callback(result, user_name,service, api, send_dingding_info, ding_url)
-    logging.info("Step5: User {} Success send result to callback function !".format(user_name))
+    # send_predict_result_to_callback(result, user_name,service, api, send_dingding_info, ding_url)
+    logging.info("Step5: User {} Success send result to callback function !".format('test'))
 
 
 def gubi_async_veri(user_name, params_data):
